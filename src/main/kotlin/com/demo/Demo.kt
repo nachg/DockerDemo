@@ -14,7 +14,7 @@ import java.io.File
 import java.nio.file.Paths
 import java.util.*
 
-lateinit var docker: BrowserWebDriverContainer<Nothing>
+lateinit var docker: Container
 
 fun main() {
     //1. Create webdriver and start Docker
@@ -22,6 +22,9 @@ fun main() {
 
     //2. Open some page
     webDriver.get("https://www.github.com")
+
+    //create a delay (to emulate an execution of the autotest)
+    Thread.sleep(50000)
 
     //3. Stop the webdriver
     webDriver.quit()
@@ -49,7 +52,7 @@ private class TestDi: TestDescription {
 }
 
 private fun startDocker() : WebDriver {
-    docker = BrowserWebDriverContainer<Nothing>()
+    docker = Container()
         .withCapabilities(getCapabilities())
     docker.withRecordingMode(
         BrowserWebDriverContainer.VncRecordingMode.RECORD_ALL,
